@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import { inputById, user } from '../store/actions';
+import { addUser, inputById } from '../store/actions';
 import { selectChatBlocks, selectUsers } from '../store/selectors';
 import { selectInput } from '../store/slices/chat';
 import { chatInteract, chatInteractButton, startChat } from '../store/thunks/chat';
@@ -22,7 +22,7 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     if (blocks.length === 0) dispatch(startChat(userID));
-    if (!users.includes(userID)) dispatch(user(userID));
+    if (!users.includes(userID)) dispatch(addUser(userID));
   }, []);
 
   function handleButtonClick(btn: string) {

@@ -69,9 +69,29 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
         state.blocks[userId] = [...blocks, answer];
       }
     },
-    user: (state, action: PayloadAction<string>) => {
+    addUser: (state, action: PayloadAction<string>) => {
       // eslint-disable-next-line no-param-reassign
       state.users = [...state.users, action.payload];
+    },
+    deleteUser: (state, action: PayloadAction<string>) => {
+      const users = new Set(state.users);
+      users.delete(action.payload);
+      // eslint-disable-next-line no-param-reassign
+      state.users = Array.from(users);
+
+      if (state.blocks[action.payload]) {
+        const newBlocks = { ...state.blocks };
+        delete newBlocks[action.payload];
+        // eslint-disable-next-line no-param-reassign
+        state.blocks = newBlocks;
+      }
+
+      if (state.form[action.payload]) {
+        const newForm = { ...state.form };
+        delete newForm[action.payload];
+        // eslint-disable-next-line no-param-reassign
+        state.form = newForm;
+      }
     },
   },
 });
