@@ -1,10 +1,18 @@
 import { createSlice, PayloadAction, SliceCaseReducers } from '@reduxjs/toolkit';
-import { GeneralTrace } from '@voiceflow/general-types';
+import { GeneralTrace, TraceType } from '@voiceflow/general-types';
+
+export interface UserAnswer {
+  type: 'answer';
+  payload: {
+    type: 'text' | 'button';
+    message: string;
+  };
+}
 
 interface State {
   users: string[];
   blocks: {
-    [k: string]: GeneralTrace[];
+    [k: string]: Array<UserAnswer | GeneralTrace>;
   };
 }
 
@@ -35,6 +43,23 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
         state.blocks[userId] = [...blocks, ...traces];
       }
     },
+    answer: (state, action: PayloadAction<{ userId: string; answer: UserAnswer }>) => {
+      const { userId, answer } = action.payload;
+      const blocks = state.blocks[userId];
+
+      if (!blocks) {
+        // eslint-disable-next-line no-param-reassign
+        state.blocks[userId] = [answer];
+      } else if (blocks[blocks.length - 1].type === TraceType.CHOICE) {
+        const newBlocks = blocks.slice();
+        newBlocks[blocks.length - 1] = answer;
+        // eslint-disable-next-line no-param-reassign
+        state.blocks[userId] = newBlocks;
+      } else {
+        // eslint-disable-next-line no-param-reassign
+        state.blocks[userId] = [...blocks, answer];
+      }
+    },
     user: (state, action: PayloadAction<string>) => {
       // eslint-disable-next-line no-param-reassign
       state.users = [...state.users, action.payload];
@@ -45,7 +70,7 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
 export const selectUsers = (state: State): string[] => state.users;
 export const selectChatBlocks =
   (user: string) =>
-  (state: State): GeneralTrace[] =>
+  (state: State): Array<UserAnswer | GeneralTrace> =>
     state.blocks[user] || [];
 
 export default chatSlice;

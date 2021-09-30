@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { createApiClient } from '../../api';
-import { append } from '../actions';
+import { answer, append } from '../actions';
 
 const api = createApiClient({
   baseUri: 'https://general-runtime.voiceflow.com',
@@ -22,6 +22,18 @@ export const startChat = (user: string) => async (dispatch: Dispatch) => {
 };
 
 export const chatInteract = (user: string, text: string) => async (dispatch: Dispatch) => {
+  dispatch(
+    answer({
+      userId: user,
+      answer: {
+        type: 'answer',
+        payload: {
+          type: 'text',
+          message: text,
+        },
+      },
+    })
+  );
   const traces = await api.interact(user, text);
 
   dispatch(
@@ -33,6 +45,18 @@ export const chatInteract = (user: string, text: string) => async (dispatch: Dis
 };
 
 export const chatInteractButton = (user: string, button: string) => async (dispatch: Dispatch) => {
+  dispatch(
+    answer({
+      userId: user,
+      answer: {
+        type: 'answer',
+        payload: {
+          type: 'button',
+          message: button,
+        },
+      },
+    })
+  );
   const traces = await api.interactButton(user, button);
 
   dispatch(

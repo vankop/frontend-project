@@ -1,5 +1,5 @@
 import chatSlice from './slices/chat';
 
-const { clear, append, user } = chatSlice.actions;
+const { clear, append, answer, user } = chatSlice.actions;
 
-export { append, clear, user };
+export { answer, append, clear, user };
