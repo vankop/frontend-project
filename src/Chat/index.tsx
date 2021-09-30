@@ -1,12 +1,13 @@
 import './index.css';
 
+import { SpeakTrace } from '@voiceflow/general-types';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 
 import { addUser, inputById } from '../store/actions';
 import { selectChatBlocks, selectInput, selectUsers } from '../store/selectors';
-import { chatInteract, chatInteractButton, startChat } from '../store/thunks/chat';
+import { chatInteract, chatInteractButton, playAudio, startChat, stopPlayer } from '../store/thunks/chat';
 import { capitalize } from '../utils';
 import Feed from './Feed';
 
@@ -22,10 +23,18 @@ const Chat: React.FC = () => {
   useEffect(() => {
     if (blocks.length === 0) dispatch(startChat(userID));
     if (!users.includes(userID)) dispatch(addUser(userID));
+
+    return () => {
+      dispatch(stopPlayer());
+    };
   }, []);
 
   function handleButtonClick(btn: string) {
     dispatch(chatInteractButton(userID, btn));
+  }
+
+  function handleSpeak(block: SpeakTrace) {
+    dispatch(playAudio(userID, block));
   }
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -41,7 +50,7 @@ const Chat: React.FC = () => {
     <div className="chat">
       <Link to="/dashboard">← to list</Link>
       <h1>{capitalize(userID)} Chat</h1>
-      <Feed userId={userID} onButtonClick={handleButtonClick} />
+      <Feed userId={userID} onButtonClick={handleButtonClick} onSpeakClick={handleSpeak} />
 
       <div className="input">
         <input className="input_input" placeholder="user input here" value={inputStr} onInput={handleChange} />

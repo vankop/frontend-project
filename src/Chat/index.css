@@ -13,6 +13,18 @@
   text-align: end;
 }
 
+.speak {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.speak > div {
+  align-self: center;
+  margin-right: 7px;
+  cursor: pointer;
+}
+
 .input {
   display: flex;
   position: absolute;

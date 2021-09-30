@@ -1,3 +1,4 @@
+import { SpeakTrace } from '@voiceflow/general-types';
 import React, { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { List, ListRowProps } from 'react-virtualized';
@@ -8,9 +9,10 @@ import Trace from './Trace';
 interface Props {
   userId: string;
   onButtonClick: (btn: string) => void;
+  onSpeakClick?: (block: SpeakTrace) => void;
 }
 
-const Feed: React.FC<Props> = ({ userId, onButtonClick }) => {
+const Feed: React.FC<Props> = ({ userId, onButtonClick, onSpeakClick }) => {
   const blocks = useSelector(selectChatBlocks(userId));
   const ref = React.createRef<List>();
 
@@ -25,7 +27,7 @@ const Feed: React.FC<Props> = ({ userId, onButtonClick }) => {
     const trace = blocks[index];
     return (
       <div key={key} style={style}>
-        <Trace trace={trace} onButtonClick={onButtonClick} />
+        <Trace trace={trace} onButtonClick={onButtonClick} onSpeakClick={onSpeakClick} />
       </div>
     );
   }
