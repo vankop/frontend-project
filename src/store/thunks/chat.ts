@@ -3,16 +3,12 @@ import { Action, Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 import { createApiClient } from '../../api';
+import configuration from '../../configuration';
 import createPlayer from '../../player';
 import { answerById, appendById } from '../actions';
 import { selectChatBlocks, State } from '../slices/chat';
 
-const api = createApiClient({
-  baseUri: 'https://general-runtime.voiceflow.com',
-  // eslint-disable-next-line no-secrets/no-secrets
-  apiKey: 'VF.6154b3fb732ec0001bca5332.kUyXxTfAgKKn4qCnI3R5KxnV1KYBeNQNrSmjyQP2vi',
-  versionId: '61549e90b9731800060250ab',
-});
+const api = createApiClient(configuration);
 const player = createPlayer();
 
 export const startChat = (user: string) => async (dispatch: Dispatch) => {

@@ -14,7 +14,7 @@ USER_INPUT='Hello world!'
 #     }"
 
 
-curl -v 'https://general-runtime.voiceflow.com/state/61549e90b9731800060250ab/user/i11/interact' \
+curl 'https://general-runtime.voiceflow.com/state/61549e90b9731800060250ab/user/i11/interact' \
   -H 'Content-type: application/json;charset=UTF-8' \
   -H 'Authorization: VF.6154b3fb732ec0001bca5332.kUyXxTfAgKKn4qCnI3R5KxnV1KYBeNQNrSmjyQP2vi' \
   --data-raw '{"request":{"type":"launch"},"config":{"tts":true}}' \
