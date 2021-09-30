@@ -5,7 +5,7 @@
   "main": "build/index.js",
   "scripts": {
     "clean": "rimraf dist",
-    "start": "react-scripts start",
+    "start": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "build": "yarn clean && webpack"
