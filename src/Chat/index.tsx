@@ -3,53 +3,51 @@ import './index.css';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { List, ListRowProps } from 'react-virtualized';
 
-import { selectChatBlocks } from '../store/selectors';
-import { chatInteractButton, startChat } from '../store/thunks/chat';
+import { inputById, user } from '../store/actions';
+import { selectChatBlocks, selectUsers } from '../store/selectors';
+import { selectInput } from '../store/slices/chat';
+import { chatInteract, chatInteractButton, startChat } from '../store/thunks/chat';
 import { capitalize } from '../utils';
-import Trace from './Trace';
+import Feed from './Feed';
 
+// eslint-disable-next-line xss/no-mixed-html
 const Chat: React.FC = () => {
   const { userID } = useParams() as { userID: string };
   const blocks = useSelector(selectChatBlocks(userID));
+  const inputStr = useSelector(selectInput(userID));
+  const users = useSelector(selectUsers);
+  const input = inputById(userID);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (blocks.length === 0) dispatch(startChat(userID));
+    if (!users.includes(userID)) dispatch(user(userID));
   }, []);
 
   function handleButtonClick(btn: string) {
     dispatch(chatInteractButton(userID, btn));
   }
 
-  function renderRow({ index, key, style }: ListRowProps) {
-    const trace = blocks[index];
-    return (
-      <div key={key} style={style}>
-        <Trace id={index.toString()} trace={trace} onButtonClick={handleButtonClick} />
-      </div>
-    );
+  function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    dispatch(input(event.target.value));
+  }
+
+  function send() {
+    dispatch(input(''));
+    dispatch(chatInteract(userID, inputStr));
   }
 
   return (
     <div className="chat">
       <h1>{capitalize(userID)} Chat</h1>
-      <div>
-        <List rowCount={blocks.length} rowHeight={22} width={500} height={365} rowRenderer={renderRow} />
-      </div>
-
-      {/* <dl> */}
-      {/*  <dt>Can I order some pizza</dt> */}
-      {/*  <dd>Sure what kind of pizza do you want?</dd> */}
-
-      {/*  <dt>Pepperoni and Cheese</dt> */}
-      {/*  <dd>Great, pepperoni and cheese coming up!</dd> */}
-      {/* </dl> */}
+      <Feed userId={userID} onButtonClick={handleButtonClick} />
 
       <div className="input">
-        <input className="input_input" placeholder="user input here" />
-        <button className="input_submit">send</button>
+        <input className="input_input" placeholder="user input here" value={inputStr} onInput={handleChange} />
+        <button className="input_submit" onClick={send}>
+          send
+        </button>
       </div>
     </div>
   );

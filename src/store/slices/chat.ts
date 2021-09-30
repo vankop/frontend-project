@@ -11,6 +11,9 @@ export interface UserAnswer {
 
 interface State {
   users: string[];
+  form: {
+    [k: string]: string;
+  };
   blocks: {
     [k: string]: Array<UserAnswer | GeneralTrace>;
   };
@@ -20,6 +23,7 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
   name: 'chat',
   initialState: {
     blocks: {},
+    form: {},
     users: [],
   },
   reducers: {
@@ -42,6 +46,11 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
         // eslint-disable-next-line no-param-reassign
         state.blocks[userId] = [...blocks, ...traces];
       }
+    },
+    input: (state, action: PayloadAction<{ userId: string; input: string }>) => {
+      const { input, userId } = action.payload;
+      // eslint-disable-next-line no-param-reassign
+      state.form[userId] = input;
     },
     answer: (state, action: PayloadAction<{ userId: string; answer: UserAnswer }>) => {
       const { userId, answer } = action.payload;
@@ -72,5 +81,9 @@ export const selectChatBlocks =
   (user: string) =>
   (state: State): Array<UserAnswer | GeneralTrace> =>
     state.blocks[user] || [];
+export const selectInput =
+  (user: string) =>
+  (state: State): string =>
+    state.form[user] || '';
 
 export default chatSlice;

@@ -1,7 +1,7 @@
 import { Dispatch } from 'redux';
 
 import { createApiClient } from '../../api';
-import { answer, append } from '../actions';
+import { answerById, appendById } from '../actions';
 
 const api = createApiClient({
   baseUri: 'https://general-runtime.voiceflow.com',
@@ -13,56 +13,35 @@ const api = createApiClient({
 export const startChat = (user: string) => async (dispatch: Dispatch) => {
   const traces = await api.launch(user);
 
-  dispatch(
-    append({
-      traces,
-      userId: user,
-    })
-  );
+  dispatch(appendById(user)(traces));
 };
 
 export const chatInteract = (user: string, text: string) => async (dispatch: Dispatch) => {
   dispatch(
-    answer({
-      userId: user,
-      answer: {
-        type: 'answer',
-        payload: {
-          type: 'text',
-          message: text,
-        },
+    answerById(user)({
+      type: 'answer',
+      payload: {
+        type: 'text',
+        message: text,
       },
     })
   );
   const traces = await api.interact(user, text);
 
-  dispatch(
-    append({
-      traces,
-      userId: user,
-    })
-  );
+  dispatch(appendById(user)(traces));
 };
 
 export const chatInteractButton = (user: string, button: string) => async (dispatch: Dispatch) => {
   dispatch(
-    answer({
-      userId: user,
-      answer: {
-        type: 'answer',
-        payload: {
-          type: 'button',
-          message: button,
-        },
+    answerById(user)({
+      type: 'answer',
+      payload: {
+        type: 'button',
+        message: button,
       },
     })
   );
   const traces = await api.interactButton(user, button);
 
-  dispatch(
-    append({
-      traces,
-      userId: user,
-    })
-  );
+  dispatch(appendById(user)(traces));
 };
