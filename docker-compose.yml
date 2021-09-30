@@ -1,0 +1,10 @@
+version: "3"
+services:
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    environment:
+      API_KEY: VF.6154b3fb732ec0001bca5332.kUyXxTfAgKKn4qCnI3R5KxnV1KYBeNQNrSmjyQP2vi
+      VERSION_ID: 61549e90b9731800060250ab
+      BASE_URI: https://general-runtime.voiceflow.com
