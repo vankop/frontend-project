@@ -4,7 +4,7 @@ import React from 'react';
 import { TraceProps } from './types';
 
 const SpeakTraceComponent: React.FC<TraceProps<SpeakTrace>> = ({ trace }) => {
-  return <dd>{trace.payload.message}</dd>;
+  return <div className="bot">{trace.payload.message}</div>;
 };
 
 export default SpeakTraceComponent;

@@ -3,6 +3,7 @@ import './index.css';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { List, ListRowProps } from 'react-virtualized';
 
 import { selectChatBlocks } from '../store/selectors';
 import { chatInteractButton, startChat } from '../store/thunks/chat';
@@ -22,15 +23,20 @@ const Chat: React.FC = () => {
     dispatch(chatInteractButton(userID, btn));
   }
 
+  function renderRow({ index, key, style }: ListRowProps) {
+    const trace = blocks[index];
+    return (
+      <div key={key} style={style}>
+        <Trace id={index.toString()} trace={trace} onButtonClick={handleButtonClick} />
+      </div>
+    );
+  }
+
   return (
     <div className="chat">
       <h1>{capitalize(userID)} Chat</h1>
-      <div className="chat_body">
-        <dl>
-          {blocks.map((b, i) => (
-            <Trace key={i} id={i.toString()} trace={b} onButtonClick={handleButtonClick} />
-          ))}
-        </dl>
+      <div>
+        <List rowCount={blocks.length} rowHeight={22} width={500} height={365} rowRenderer={renderRow} />
       </div>
 
       {/* <dl> */}

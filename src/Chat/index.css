@@ -4,10 +4,13 @@
   position: relative;
 }
 
-.chat_body {
-  height: 365px;
-  position: relative;
-  overflow-y: auto;
+.answer {
+  color: darkslateblue;
+}
+
+.bot {
+  color: dodgerblue;
+  text-align: end;
 }
 
 .input {
@@ -23,22 +26,4 @@
 
 .input_submit {
   width: 50px;
-}
-
-dl {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-}
-
-dd {
-  margin: 0;
-  align-self: end;
-  color: dodgerblue;
-}
-
-dt {
-  margin: 0;
-  align-self: start;
-  color: darkslateblue;
 }

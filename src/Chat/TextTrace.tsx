@@ -11,7 +11,7 @@ interface TextTrace {
 
 // @ts-expect-error text trace?
 const TextTraceComponent: React.FC<TraceProps<TextTrace>> = ({ trace }) => {
-  return <dd>{trace.payload.message}</dd>;
+  return <div className="bot">{trace.payload.message}</div>;
 };
 
 export default TextTraceComponent;
