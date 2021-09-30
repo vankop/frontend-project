@@ -1,3 +1,3 @@
-import { selectChatBlocks, selectUsers } from './slices/chat';
+import { selectChatBlocks, selectInput, selectUsers } from './slices/chat';
 
-export { selectChatBlocks, selectUsers };
+export { selectChatBlocks, selectInput, selectUsers };

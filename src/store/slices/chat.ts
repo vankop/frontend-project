@@ -9,7 +9,7 @@ export interface UserAnswer {
   };
 }
 
-interface State {
+export interface State {
   users: string[];
   form: {
     [k: string]: string;
@@ -52,6 +52,10 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
       // eslint-disable-next-line no-param-reassign
       state.form[userId] = input;
     },
+    setForm: (state, action: PayloadAction<State['form']>) => {
+      // eslint-disable-next-line no-param-reassign
+      state.form = action.payload;
+    },
     answer: (state, action: PayloadAction<{ userId: string; answer: UserAnswer }>) => {
       const { userId, answer } = action.payload;
       const blocks = state.blocks[userId];
@@ -68,6 +72,10 @@ const chatSlice = createSlice<State, SliceCaseReducers<State>>({
         // eslint-disable-next-line no-param-reassign
         state.blocks[userId] = [...blocks, answer];
       }
+    },
+    setUsers: (state, action: PayloadAction<string[]>) => {
+      // eslint-disable-next-line no-param-reassign
+      state.users = action.payload;
     },
     addUser: (state, action: PayloadAction<string>) => {
       // eslint-disable-next-line no-param-reassign

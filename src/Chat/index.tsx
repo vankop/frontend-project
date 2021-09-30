@@ -2,11 +2,10 @@ import './index.css';
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { addUser, inputById } from '../store/actions';
-import { selectChatBlocks, selectUsers } from '../store/selectors';
-import { selectInput } from '../store/slices/chat';
+import { selectChatBlocks, selectInput, selectUsers } from '../store/selectors';
 import { chatInteract, chatInteractButton, startChat } from '../store/thunks/chat';
 import { capitalize } from '../utils';
 import Feed from './Feed';
@@ -40,6 +39,7 @@ const Chat: React.FC = () => {
 
   return (
     <div className="chat">
+      <Link to="/dashboard">← to list</Link>
       <h1>{capitalize(userID)} Chat</h1>
       <Feed userId={userID} onButtonClick={handleButtonClick} />
 
