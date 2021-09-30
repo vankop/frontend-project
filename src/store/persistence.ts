@@ -1,7 +1,8 @@
 import { Store } from 'redux';
 
 import { appendById, setForm, setUsers } from './actions';
-import { selectChatBlocks, selectUsers, State } from './slices/chat';
+import { selectChatBlocks, selectUsers } from './selectors';
+import { State } from './slices/chat';
 
 const usersKey = 'APP_USERS';
 const formKey = 'APP_FORM';

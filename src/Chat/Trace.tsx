@@ -9,19 +9,19 @@ import TextTrace from './TextTrace';
 import { TraceProps } from './types';
 import UserAnswerComponent from './UserAnswer';
 
-const TraceComponent: React.FC<TraceProps<GeneralTrace | UserAnswer>> = ({ id, trace, onButtonClick }) => {
+const TraceComponent: React.FC<TraceProps<GeneralTrace | UserAnswer>> = ({ trace, onButtonClick }) => {
   switch (trace.type) {
     case 'answer':
       return <UserAnswerComponent {...trace.payload} />;
     case TraceType.CHOICE:
-      return <ChoiceTrace id={id} trace={trace} onButtonClick={onButtonClick} />;
+      return <ChoiceTrace trace={trace} onButtonClick={onButtonClick} />;
     case TraceType.SPEAK:
-      return <SpeakTrace id={id} trace={trace} />;
+      return <SpeakTrace trace={trace} />;
     case TraceType.VISUAL:
-      return <ImageTrace id={id} trace={trace} />;
+      return <ImageTrace trace={trace} />;
     // @ts-expect-error text trace?
     case 'text':
-      return <TextTrace id={id} trace={trace} />;
+      return <TextTrace trace={trace} />;
     case TraceType.BLOCK:
     case TraceType.DEBUG:
     case TraceType.END:

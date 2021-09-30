@@ -2,7 +2,7 @@ import React, { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { List, ListRowProps } from 'react-virtualized';
 
-import { selectChatBlocks } from '../store/slices/chat';
+import { selectChatBlocks } from '../store/selectors';
 import Trace from './Trace';
 
 interface Props {
@@ -25,7 +25,7 @@ const Feed: React.FC<Props> = ({ userId, onButtonClick }) => {
     const trace = blocks[index];
     return (
       <div key={key} style={style}>
-        <Trace id={index.toString()} trace={trace} onButtonClick={onButtonClick} />
+        <Trace trace={trace} onButtonClick={onButtonClick} />
       </div>
     );
   }
